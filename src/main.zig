@@ -1,19 +1,19 @@
 const std = @import("std");
 
 pub fn main() !void {
-    // Prints to stderr (it's a shortcut based on `std.io.getStdErr()`)
     std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
+    printf("Run `zig build test` to run the tests.\n", .{});
+}
 
-    // stdout is for the actual output of your application, for example if you
-    // are implementing gzip, then only the compressed bytes should be sent to
-    // stdout, not any debugging messages.
+/// write to stdout using buffering with NO error handling
+fn printf(comptime fmt: []const u8, args: anytype) void {
     const stdout_file = std.io.getStdOut().writer();
     var bw = std.io.bufferedWriter(stdout_file);
+
     const stdout = bw.writer();
+    stdout.print(fmt, args) catch unreachable;
 
-    try stdout.print("Run `zig build test` to run the tests.\n", .{});
-
-    try bw.flush(); // don't forget to flush!
+    bw.flush() catch unreachable;
 }
 
 test "simple test" {
