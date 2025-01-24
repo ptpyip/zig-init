@@ -22,8 +22,18 @@ pub fn build(b: *std.Build) void {
     });
     b.installArtifact(exe);
 
+    // Add what dependency to be executable
+    const raylib_dep = b.dependency("raylib", .{
+        .target = target,
+        .optimize = optimize,
+        // set options here for the external library
+        .shared = true,
+    });
+    const raylib = raylib_dep.artifact("raylib");
+
     // Link external libraries
-    // exe.linkLibC();
+    exe.linkLibC();
+    exe.linkLibrary(raylib); // link raylib to the executable
 
     // Create a Run step in the build graph.
     const run_cmd = b.addRunArtifact(exe);

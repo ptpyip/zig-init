@@ -8,7 +8,12 @@
     // See `zig fetch --save <url>` for a command-line interface for adding dependencies.
     // syntax: .<lib_name> = .{ .path = <relative_path_to_build_root> },
     //       or .<lib_name> = .{ .url = "https://example.com/foo.tar.gz", .hash = "...",},
-    .dependencies = .{},
+    .dependencies = .{
+        .raylib = .{
+            .url = "https://github.com/raysan5/raylib/archive/refs/tags/5.5.tar.gz", // the url for the source code tarball
+            .hash = "1220d93782859726c2c46a05450615b7edfc82b7319daac50cbc7c3345d660b022d7", // obtained from `zig fetch`
+        },
+    },
 
     // The set of files and directories that are included in this package.
     // As a rule of thumb, one should list files required for compilation & any license(s).

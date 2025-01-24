@@ -1,8 +1,30 @@
 const std = @import("std");
+const ray = @cImport({
+    @cInclude("raylib.h");
+});
 
 pub fn main() !void {
     std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
     printf("Run `zig build test` to run the tests.\n", .{});
+    displayBasicWindow();
+}
+
+fn displayBasicWindow() void {
+    // Modify from raylib  Basic window example in c:
+    // https://github.com/raysan5/raylib/blob/master/examples/core/core_basic_window.c
+    ray.InitWindow(800, 450, "Hello Raylib");
+    defer {
+        ray.CloseWindow();
+        std.debug.print("bye.\n", .{});
+    }
+
+    while (!ray.WindowShouldClose()) {
+        ray.BeginDrawing();
+        defer ray.EndDrawing();
+
+        ray.ClearBackground(ray.BLACK);
+        ray.DrawText("Hi Raylib", 250, 250, 50, ray.WHITE);
+    }
 }
 
 /// write to stdout using buffering with NO error handling
